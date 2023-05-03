@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "name": "Mike",
-  "number": "456"
+  "number": "456-12345"
 }
 ###
 POST http://localhost:3001/api/persons
