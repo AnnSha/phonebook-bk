@@ -28,21 +28,23 @@ app.use(cors())
 app.use(express.static('build'))
 
 
-app.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
-})
+// app.get('/', (request, response) => {
+//     response.send('<h1>Hello World!</h1>')
+// })
 
-app.get('/info',(request, response)=>{
+app.get('/info',(request, response, next)=>{
     Person.find({}).then(persons=>{
         response.send(`<p>Phonebook has info for ${persons.length}  people</p>
                              <p> ${new Date()} </p>` )
     })
+        .catch(error=>next(error))
 })
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
     Person.find({}).then(persons => {
         response.json(persons)
     })
+        .catch(error=>next(error))
 })
 
 // app.get('/api/persons/:id', (request, response)=>{
