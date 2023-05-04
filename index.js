@@ -1,8 +1,6 @@
 
 const express = require('express')
-const {request, response, query} = require("express");
-const cors=require("cors")
-
+const cors=require('cors')
 require('dotenv').config()
 
 const Person = require('./models/person')
@@ -32,19 +30,19 @@ app.use(express.static('build'))
 //     response.send('<h1>Hello World!</h1>')
 // })
 
-app.get('/info',(request, response, next)=>{
-    Person.find({}).then(persons=>{
+app.get('/info',(request, response, next) => {
+    Person.find({}).then(persons => {
         response.send(`<p>Phonebook has info for ${persons.length}  people</p>
                              <p> ${new Date()} </p>` )
     })
-        .catch(error=>next(error))
+        .catch(error => next(error))
 })
 
 app.get('/api/persons', (request, response, next) => {
     Person.find({}).then(persons => {
         response.json(persons)
     })
-        .catch(error=>next(error))
+        .catch(error => next(error))
 })
 
 // app.get('/api/persons/:id', (request, response)=>{
@@ -61,16 +59,16 @@ app.get('/api/persons/:id', (request, response, next) => {
         .then(person => {
             response.json(person)
         })
-        .catch(error=>next(error))
+        .catch(error => next(error))
 })
 
 
-app.delete('/api/persons/:id', (request,response, next)=>{
+app.delete('/api/persons/:id', (request,response, next) => {
     Person.findByIdAndRemove(request.params.id)
-        .then(()=>{
+        .then(() => {
             response.status(204).end()
         })
-        .catch(error=>next(error))
+        .catch(error => next(error))
 })
 // const generateId = () => {
 //     return Math.floor(Math.random() *10000)
@@ -104,16 +102,16 @@ app.post('/api/persons', (request, response, next) => {
     person.save().then(savedPerson => {
         response.json(savedPerson)
     })
-        .catch(error=>next(error))
+        .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
-    const {name, number} = request.body
+    const { name, number } = request.body
 
 
     Person.findByIdAndUpdate(request.params.id,
-        {name, number},
-        { new: true , runValidators: true, context:'query'})
+        { name, number },
+        { new: true , runValidators: true, context:'query' })
         .then(updatedPerson => {
             response.json(updatedPerson)
         })
@@ -124,6 +122,6 @@ app.put('/api/persons/:id', (request, response, next) => {
 app.use(errorHandler)
 
 const PORT = process.env.PORT
-app.listen(PORT,()=> {
+app.listen(PORT,() => {
     console.log(`Server running on port ${PORT}`)
 })
